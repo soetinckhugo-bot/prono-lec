@@ -93,6 +93,9 @@ export default function HomePage() {
               className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 font-medium text-bg transition-all focus:ring-2 focus:ring-primary"
               required
             />
+            {!isLogin && (
+              <p className="mt-1 text-xs text-text-muted">Minimum 4 caractères</p>
+            )}
           </div>
           <button
             type="submit"

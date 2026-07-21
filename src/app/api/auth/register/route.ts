@@ -6,8 +6,11 @@ export async function POST(req: NextRequest) {
   try {
     const { username, password } = await req.json();
 
-    if (!username || !password || username.length < 2 || password.length < 4) {
-      return Response.json({ error: "Pseudo ou mot de passe invalide" }, { status: 400 });
+    if (!username || username.length < 2) {
+      return Response.json({ error: "Le pseudo doit faire au moins 2 caractères" }, { status: 400 });
+    }
+    if (!password || password.length < 4) {
+      return Response.json({ error: "Le mot de passe doit faire au moins 4 caractères" }, { status: 400 });
     }
 
     const exists = await prisma.user.findUnique({ where: { username } });

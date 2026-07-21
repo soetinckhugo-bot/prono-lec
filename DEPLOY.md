@@ -60,9 +60,9 @@ Si ça demande ton identifiant GitHub, entre-le.
 2. Clique sur **Database**
 3. Tu vois une section **Connection string**
 4. Choisis le mode **URI**
-5. Copie la ligne qui ressemble à :
+5. **Important** : avec Vercel, il faut utiliser le port **6543** (Transaction pooler). L'URL ressemble à :
    ```
-   postgresql://postgres.[reference]:[password]@aws-0-eu-central-1.pooler.supabase.com:5432/postgres
+   postgresql://postgres:[password]@db.xxxxxxxxx.supabase.co:6543/postgres
    ```
 6. Remplace `[password]` par le mot de passe que tu as choisi
 
@@ -87,7 +87,7 @@ move prisma\schema.prisma.postgresql prisma\schema.prisma
 Puis crée un fichier `.env` à la racine du dossier `prono` avec ce contenu :
 
 ```env
-DATABASE_URL="postgresql://postgres.TON_REF:TON_MDP@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
+DATABASE_URL="postgresql://postgres.TON_MDP@db.xxxxxxxxx.supabase.co:6543/postgres"
 NEXTAUTH_SECRET="une_tres_tres_longue_cle_aleatoire_ici_min_32_caracteres"
 NEXTAUTH_URL="http://localhost:3000"
 ```

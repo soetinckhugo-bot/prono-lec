@@ -12,22 +12,32 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     const { winner, scoreA, scoreB, locked } = await req.json();
     const { id } = await params;
 
+    const existing = await prisma.match.findUnique({ where: { id } });
+    if (!existing) return Response.json({ error: "Not found" }, { status: 404 });
+
+    const isBo1 = existing.format === "BO1";
+    const finalScoreA = scoreA === undefined
+      ? (isBo1 && winner ? (winner === "teamA" ? 1 : 0) : undefined)
+      : Number(scoreA);
+    const finalScoreB = scoreB === undefined
+      ? (isBo1 && winner ? (winner === "teamB" ? 1 : 0) : undefined)
+      : Number(scoreB);
+
     const match = await prisma.match.update({
       where: { id },
       data: {
         winner,
-        scoreA: scoreA === undefined ? undefined : Number(scoreA),
-        scoreB: scoreB === undefined ? undefined : Number(scoreB),
+        scoreA: finalScoreA,
+        scoreB: finalScoreB,
         locked: locked === undefined ? undefined : Boolean(locked),
       },
       include: { predictions: true },
     });
 
-    if (winner && scoreA !== undefined && scoreB !== undefined) {
+    if (winner && finalScoreA !== undefined && finalScoreB !== undefined) {
       const correctWinner = winner;
-      const correctScoreA = Number(scoreA);
-      const correctScoreB = Number(scoreB);
-      const isBo1 = match.format === "BO1";
+      const correctScoreA = Number(finalScoreA);
+      const correctScoreB = Number(finalScoreB);
       const exactBonus = isBo1 ? 1 : 2;
 
       for (const p of match.predictions) {

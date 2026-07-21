@@ -8,6 +8,7 @@ type PredictionFormProps = {
     id: string;
     teamA: string;
     teamB: string;
+    format: string;
   };
   existing?: {
     winner: string;
@@ -19,8 +20,9 @@ type PredictionFormProps = {
 };
 
 export function PredictionForm({ match, existing, onClose, onUpdate }: PredictionFormProps) {
+  const isBo1 = match.format === "BO1";
   const [winner, setWinner] = useState(existing?.winner || "teamA");
-  const [scoreA, setScoreA] = useState(existing?.scoreA ?? 0);
+  const [scoreA, setScoreA] = useState(existing?.scoreA ?? (isBo1 ? 1 : 0));
   const [scoreB, setScoreB] = useState(existing?.scoreB ?? 0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,10 +32,14 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
     setError("");
     setLoading(true);
 
+    const body = isBo1
+      ? { matchId: match.id, winner, scoreA: winner === "teamA" ? 1 : 0, scoreB: winner === "teamB" ? 1 : 0 }
+      : { matchId: match.id, winner, scoreA, scoreB };
+
     const res = await fetch("/api/predictions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ matchId: match.id, winner, scoreA, scoreB }),
+      body: JSON.stringify(body),
     });
 
     const data = await res.json();
@@ -81,32 +87,41 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className="mb-2 block text-sm font-medium text-text-muted">Score {match.teamA}</label>
-          <input
-            type="number"
-            min={0}
-            value={scoreA}
-            onChange={(e) => setScoreA(Number(e.target.value))}
-            className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
-          />
+      {!isBo1 && (
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-text-muted">Score {match.teamA}</label>
+            <input
+              type="number"
+              min={0}
+              value={scoreA}
+              onChange={(e) => setScoreA(Number(e.target.value))}
+              className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
+            />
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <span className="text-sm text-text-muted">Vainqueur</span>
+            <span className="font-bold text-primary">{selectedTeam}</span>
+          </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-text-muted">Score {match.teamB}</label>
+            <input
+              type="number"
+              min={0}
+              value={scoreB}
+              onChange={(e) => setScoreB(Number(e.target.value))}
+              className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
+            />
+          </div>
         </div>
-        <div className="flex flex-col items-center justify-center">
-          <span className="text-sm text-text-muted">Vainqueur</span>
-          <span className="font-bold text-primary">{selectedTeam}</span>
+      )}
+
+      {isBo1 && (
+        <div className="rounded-xl border border-primary/30 bg-primary/10 p-4 text-center">
+          <p className="text-sm text-text-muted">Vainqueur choisi</p>
+          <p className="text-lg font-bold text-primary">{selectedTeam}</p>
         </div>
-        <div>
-          <label className="mb-2 block text-sm font-medium text-text-muted">Score {match.teamB}</label>
-          <input
-            type="number"
-            min={0}
-            value={scoreB}
-            onChange={(e) => setScoreB(Number(e.target.value))}
-            className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
-          />
-        </div>
-      </div>
+      )}
 
       <div className="mt-5 flex gap-3">
         <button

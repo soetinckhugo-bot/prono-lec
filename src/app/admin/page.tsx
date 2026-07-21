@@ -50,17 +50,17 @@ export default function AdminPage() {
     fetchMatches();
   }
 
-  async function setResultMatch(id: string) {
+  async function setResultMatch(id: string, format: string) {
     const r = result[id] || { winner: "", scoreA: "", scoreB: "" };
+    const body: Record<string, unknown> = { winner: r.winner, locked: true };
+    if (format !== "BO1") {
+      body.scoreA = Number(r.scoreA);
+      body.scoreB = Number(r.scoreB);
+    }
     await fetch(`/api/matches/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        winner: r.winner,
-        scoreA: Number(r.scoreA),
-        scoreB: Number(r.scoreB),
-        locked: true,
-      }),
+      body: JSON.stringify(body),
     });
     fetchMatches();
   }
@@ -173,26 +173,30 @@ export default function AdminPage() {
                 <option value="teamA">{m.teamA}</option>
                 <option value="teamB">{m.teamB}</option>
               </select>
-              <input
-                type="number"
-                placeholder="Score A"
-                value={result[m.id]?.scoreA || ""}
-                onChange={(e) =>
-                  setResult((prev) => ({ ...prev, [m.id]: { ...(prev[m.id] || { winner: "", scoreB: "" }), scoreA: e.target.value } }))
-                }
-                className="w-24 rounded-xl border border-white/10 bg-white px-3 py-2 text-sm font-medium text-bg"
-              />
-              <input
-                type="number"
-                placeholder="Score B"
-                value={result[m.id]?.scoreB || ""}
-                onChange={(e) =>
-                  setResult((prev) => ({ ...prev, [m.id]: { ...(prev[m.id] || { winner: "", scoreA: "" }), scoreB: e.target.value } }))
-                }
-                className="w-24 rounded-xl border border-white/10 bg-white px-3 py-2 text-sm font-medium text-bg"
-              />
+              {m.format !== "BO1" && (
+                <>
+                  <input
+                    type="number"
+                    placeholder="Score A"
+                    value={result[m.id]?.scoreA || ""}
+                    onChange={(e) =>
+                      setResult((prev) => ({ ...prev, [m.id]: { ...(prev[m.id] || { winner: "", scoreB: "" }), scoreA: e.target.value } }))
+                    }
+                    className="w-24 rounded-xl border border-white/10 bg-white px-3 py-2 text-sm font-medium text-bg"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Score B"
+                    value={result[m.id]?.scoreB || ""}
+                    onChange={(e) =>
+                      setResult((prev) => ({ ...prev, [m.id]: { ...(prev[m.id] || { winner: "", scoreA: "" }), scoreB: e.target.value } }))
+                    }
+                    className="w-24 rounded-xl border border-white/10 bg-white px-3 py-2 text-sm font-medium text-bg"
+                  />
+                </>
+              )}
               <button
-                onClick={() => setResultMatch(m.id)}
+                onClick={() => setResultMatch(m.id, m.format)}
                 className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-bg transition-all hover:bg-primary-hover"
               >
                 <Save className="h-4 w-4" />

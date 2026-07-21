@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TeamLogo } from "@/components/team-logo";
 import { LEC_TEAMS } from "@/lib/teams";
-import { Plus, Save, Trash2, Shield } from "lucide-react";
+import { Plus, Save, Trash2, Shield, Lock, Unlock } from "lucide-react";
 
 type Match = {
   id: string;
@@ -61,6 +61,15 @@ export default function AdminPage() {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+    });
+    fetchMatches();
+  }
+
+  async function toggleLock(id: string, locked: boolean) {
+    await fetch(`/api/matches/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ locked: !locked }),
     });
     fetchMatches();
   }
@@ -208,6 +217,17 @@ export default function AdminPage() {
               >
                 <Save className="h-4 w-4" />
                 Enregistrer
+              </button>
+              <button
+                onClick={() => toggleLock(m.id, m.locked)}
+                className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold transition-all ${
+                  m.locked
+                    ? "border border-white/10 bg-white/5 text-text-muted hover:border-primary/30 hover:text-primary"
+                    : "border border-white/10 bg-white/5 text-text-muted hover:border-danger/30 hover:text-danger"
+                }`}
+              >
+                {m.locked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                {m.locked ? "Déverrouiller" : "Verrouiller"}
               </button>
               <button
                 onClick={() => deleteMatch(m.id)}

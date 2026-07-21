@@ -64,6 +64,9 @@ export default function MatchesPage() {
             <CalendarDays className="h-4 w-4" />
             Programme LEC
           </p>
+          <p className="mt-2 text-xs text-text-muted">
+            Les pronos se verrouillent 15 minutes avant le premier match de la journée. Demande à un admin pour changer après verrouillage.
+          </p>
         </div>
       </header>
 

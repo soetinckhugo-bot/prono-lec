@@ -38,15 +38,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       const correctWinner = winner;
       const correctScoreA = Number(finalScoreA);
       const correctScoreB = Number(finalScoreB);
-      const exactBonus = isBo1 ? 1 : 2;
 
       for (const p of match.predictions) {
         let points = 0;
         const winnerCorrect = p.winner === correctWinner;
         const scoreExact = p.scoreA === correctScoreA && p.scoreB === correctScoreB;
 
-        if (winnerCorrect) points += 1;
-        if (winnerCorrect && scoreExact) points += exactBonus;
+        if (winnerCorrect && scoreExact) points = 2;
+        else if (winnerCorrect) points = 1;
 
         await prisma.prediction.update({
           where: { id: p.id },

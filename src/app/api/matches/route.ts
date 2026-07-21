@@ -3,11 +3,46 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+function franceDayKey(date: Date) {
+  return new Date(date).toLocaleDateString("fr-FR", { timeZone: "Europe/Paris" });
+}
+
 export async function GET() {
-  const matches = await prisma.match.findMany({
+  let matches = await prisma.match.findMany({
     orderBy: { scheduledAt: "asc" },
     include: { predictions: true },
   });
+
+  const now = new Date();
+  const byDay = new Map<string, typeof matches>();
+  for (const m of matches) {
+    const key = franceDayKey(m.scheduledAt);
+    if (!byDay.has(key)) byDay.set(key, []);
+    byDay.get(key)!.push(m);
+  }
+
+  const toLock: string[] = [];
+  for (const dayMatches of byDay.values()) {
+    const first = dayMatches.sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime())[0];
+    const lockTime = new Date(first.scheduledAt.getTime() - 15 * 60 * 1000);
+    if (now >= lockTime) {
+      for (const m of dayMatches) {
+        if (!m.locked) toLock.push(m.id);
+      }
+    }
+  }
+
+  if (toLock.length > 0) {
+    await prisma.match.updateMany({
+      where: { id: { in: toLock } },
+      data: { locked: true },
+    });
+    matches = await prisma.match.findMany({
+      orderBy: { scheduledAt: "asc" },
+      include: { predictions: true },
+    });
+  }
+
   return Response.json(matches);
 }
 

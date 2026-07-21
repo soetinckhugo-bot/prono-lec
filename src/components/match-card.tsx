@@ -109,9 +109,14 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
           )}
         </div>
       ) : (
-        <div className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-semibold text-text-muted">
-          <Lock className="h-4 w-4" />
-          {isFinished ? "Match terminé" : "Pronos verrouillés"}
+        <div className="mt-5 flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-semibold text-text-muted">
+          <div className="flex items-center gap-2">
+            <Lock className="h-4 w-4" />
+            {isFinished ? "Match terminé" : "Pronos verrouillés"}
+          </div>
+          {!isFinished && (
+            <p className="text-xs text-text-muted">Contacte un admin si tu veux modifier.</p>
+          )}
         </div>
       )}
 

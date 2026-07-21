@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Trophy, LogOut, Users } from "lucide-react";
+import { Trophy, LogOut, Users, Shield } from "lucide-react";
 
 export function Navigation() {
   const { data: session, status } = useSession();
@@ -12,29 +12,27 @@ export function Navigation() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link href="/" className="flex items-center gap-2 text-xl font-black tracking-tight">
           <Trophy className="h-6 w-6 text-primary" />
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Prono LEC
+          <span className="text-white">
+            Prono <span className="text-primary">LEC</span>
           </span>
         </Link>
 
         <div className="flex items-center gap-6">
           {status === "authenticated" ? (
             <>
-              <Link href="/matches" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-white">
+              <Link href="/matches" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
                 <Users className="h-4 w-4" />
                 Matchs
               </Link>
-              <Link href="/leaderboard" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-white">
+              <Link href="/leaderboard" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
                 <Trophy className="h-4 w-4" />
                 Classement
               </Link>
               {session.user?.role === "admin" && (
                 <>
-                  <Link href="/admin" className="text-sm font-medium text-text-muted transition-colors hover:text-white">
-                    Matchs
-                  </Link>
-                  <Link href="/admin/users" className="text-sm font-medium text-text-muted transition-colors hover:text-white">
-                    Utilisateurs
+                  <Link href="/admin" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
+                    <Shield className="h-4 w-4" />
+                    Admin
                   </Link>
                 </>
               )}

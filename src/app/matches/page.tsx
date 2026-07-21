@@ -57,10 +57,10 @@ export default function MatchesPage() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <header className="mb-8 flex items-center justify-between">
+      <header className="mb-10 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-black tracking-tight">Matchs à pronostiquer</h1>
-          <p className="mt-1 flex items-center gap-2 text-text-muted">
+          <h1 className="text-3xl font-black tracking-tight md:text-4xl">Matchs à pronostiquer</h1>
+          <p className="mt-2 flex items-center gap-2 text-text-muted">
             <CalendarDays className="h-4 w-4" />
             Programme LEC
           </p>
@@ -68,7 +68,7 @@ export default function MatchesPage() {
       </header>
 
       {matches.length === 0 ? (
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-12 text-center">
+        <div className="rounded-2xl border border-white/10 bg-surface/60 p-12 text-center backdrop-blur-xl">
           <p className="text-lg text-text-muted">Aucun match programmé pour le moment.</p>
           <p className="mt-2 text-sm text-text-muted">Reviens plus tard ou demande à l'admin d'en ajouter.</p>
         </div>

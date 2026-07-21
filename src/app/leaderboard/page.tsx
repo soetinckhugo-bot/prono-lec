@@ -25,11 +25,11 @@ export default function LeaderboardPage() {
   return (
     <div className="mx-auto max-w-6xl">
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-black tracking-tight text-white">Classement</h1>
+        <h1 className="text-4xl font-black tracking-tight md:text-5xl">Classement</h1>
         <p className="mt-2 text-text-muted">Les meilleurs pronostiqueurs de la LEC</p>
       </header>
 
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface/60 backdrop-blur-xl">
         <table className="w-full text-left">
           <thead className="bg-white/5">
             <tr>
@@ -46,7 +46,7 @@ export default function LeaderboardPage() {
             {users.map((u, i) => (
               <tr
                 key={u.id}
-                className={`transition-colors hover:bg-white/5 ${i === 0 ? "bg-gradient-to-r from-primary/20 to-transparent" : ""}`}
+                className={`transition-colors hover:bg-white/5 ${i === 0 ? "bg-primary/5" : ""}`}
               >
                 <td className="px-6 py-4">
                   {i === 0 ? (
@@ -59,11 +59,11 @@ export default function LeaderboardPage() {
                   <span className="font-semibold text-white">{u.username}</span>
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <span className="rounded-full bg-primary/20 px-3 py-1 font-mono font-bold text-primary">
+                  <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono font-bold text-primary">
                     {u.score}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-center text-success">{u.correctPredictions}</td>
+                <td className="px-6 py-4 text-center text-primary">{u.correctPredictions}</td>
                 <td className="px-6 py-4 text-center text-warning">{u.exactPredictions}</td>
                 <td className="px-6 py-4 text-center text-danger">{u.wrongPredictions}</td>
                 <td className="px-6 py-4">
@@ -80,9 +80,7 @@ export default function LeaderboardPage() {
         </table>
       </div>
 
-      {users.length === 0 && (
-        <p className="mt-8 text-center text-text-muted">Aucun joueur classé pour le moment.</p>
-      )}
+      {users.length === 0 && <p className="mt-8 text-center text-text-muted">Aucun joueur classé pour le moment.</p>}
     </div>
   );
 }

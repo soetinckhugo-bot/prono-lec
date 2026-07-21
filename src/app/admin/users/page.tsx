@@ -45,7 +45,7 @@ export default function AdminUsersPage() {
 
   if (session?.user?.role !== "admin") {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-12 text-center">
+      <div className="rounded-2xl border border-white/10 bg-surface/60 p-12 text-center backdrop-blur-xl">
         <Shield className="mx-auto mb-4 h-12 w-12 text-text-muted" />
         <p className="text-lg text-text-muted">Cette page est réservée au compte admin.</p>
       </div>
@@ -62,12 +62,12 @@ export default function AdminUsersPage() {
 
   return (
     <div className="mx-auto max-w-5xl">
-      <h1 className="mb-8 flex items-center gap-3 text-3xl font-black tracking-tight">
+      <h1 className="mb-8 flex items-center gap-3 text-3xl font-black tracking-tight md:text-4xl">
         <Users className="h-8 w-8 text-primary" />
         Gestion des utilisateurs
       </h1>
 
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl">
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface/60 backdrop-blur-xl">
         <table className="w-full text-left">
           <thead className="bg-white/5">
             <tr>
@@ -84,7 +84,7 @@ export default function AdminUsersPage() {
               <tr key={u.id} className="transition-colors hover:bg-white/5">
                 <td className="px-6 py-4 font-semibold text-white">{u.username}</td>
                 <td className="px-6 py-4 text-center">
-                  <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${u.role === "admin" ? "bg-primary/20 text-primary" : "bg-white/10 text-text-muted"}`}>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${u.role === "admin" ? "border border-primary/30 bg-primary/10 text-primary" : "border border-white/10 bg-white/5 text-text-muted"}`}>
                     {u.role}
                   </span>
                 </td>
@@ -98,7 +98,7 @@ export default function AdminUsersPage() {
                       <Ban className="h-4 w-4" /> Banni
                     </span>
                   ) : (
-                    <span className="flex items-center justify-center gap-1 text-sm font-bold text-success">
+                    <span className="flex items-center justify-center gap-1 text-sm font-bold text-primary">
                       <CheckCircle className="h-4 w-4" /> Actif
                     </span>
                   )}
@@ -109,7 +109,7 @@ export default function AdminUsersPage() {
                       onClick={() => toggleBan(u.id, !u.isBanned)}
                       className={`rounded-xl px-4 py-2 text-sm font-bold transition-all ${
                         u.isBanned
-                          ? "bg-success text-white hover:opacity-90"
+                          ? "bg-primary text-bg hover:bg-primary-hover"
                           : "bg-danger text-white hover:opacity-90"
                       }`}
                     >

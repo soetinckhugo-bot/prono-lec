@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { PredictionForm } from "./prediction-form";
 import { TeamLogo } from "./team-logo";
-import { Lock, Trophy } from "lucide-react";
+import { Lock } from "lucide-react";
 
 type MatchCardProps = {
   match: {
@@ -33,12 +33,11 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
   const [showForm, setShowForm] = useState(false);
   const myPrediction = match.predictions.find((p) => p.userId === userId);
   const isFinished = !!match.winner && match.scoreA !== null && match.scoreB !== null;
-  const winnerName = match.winner === "teamA" ? match.teamA : match.teamB;
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition-all hover:bg-white/[0.07] hover:shadow-2xl hover:shadow-primary/10">
+    <div className="group overflow-hidden rounded-2xl border border-white/10 bg-surface/60 p-5 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-surface-elevated/80 hover:shadow-2xl hover:shadow-primary/5">
       <div className="mb-4 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-text-muted">
-        <span className="rounded-full bg-white/10 px-2.5 py-1">{match.format}</span>
+        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{match.format}</span>
         <span>{new Date(match.scheduledAt).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}</span>
       </div>
 
@@ -46,14 +45,11 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
         <div className="flex flex-1 flex-col items-center gap-3 text-center">
           <TeamLogo name={match.teamA} size={64} />
           <span className="text-lg font-bold">{match.teamA}</span>
-          {isFinished && match.winner === "teamA" && (
-            <Trophy className="h-5 w-5 text-warning" />
-          )}
         </div>
 
         <div className="flex flex-col items-center gap-1">
           {isFinished ? (
-            <span className="text-3xl font-black tracking-tight">
+            <span className="text-3xl font-black tracking-tight text-primary">
               {match.scoreA} - {match.scoreB}
             </span>
           ) : (
@@ -64,9 +60,6 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
         <div className="flex flex-1 flex-col items-center gap-3 text-center">
           <TeamLogo name={match.teamB} size={64} />
           <span className="text-lg font-bold">{match.teamB}</span>
-          {isFinished && match.winner === "teamB" && (
-            <Trophy className="h-5 w-5 text-warning" />
-          )}
         </div>
       </div>
 
@@ -75,7 +68,7 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
           <div className="flex items-center justify-between text-sm">
             <span className="text-text-muted">Ton prono</span>
             {isFinished && (
-              <span className={`font-bold ${myPrediction.points > 0 ? "text-success" : "text-danger"}`}>
+              <span className={`font-bold ${myPrediction.points > 0 ? "text-primary" : "text-danger"}`}>
                 {myPrediction.points} pts
               </span>
             )}
@@ -98,7 +91,7 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
           ) : (
             <button
               onClick={() => setShowForm(true)}
-              className="w-full rounded-xl bg-primary py-3 font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-hover hover:shadow-primary/30"
+              className="w-full rounded-xl border border-primary/30 bg-primary/10 py-3 font-bold text-primary shadow-lg shadow-primary/10 transition-all hover:bg-primary hover:text-bg hover:shadow-primary/20"
             >
               {myPrediction ? "Modifier mon prono" : "Faire un prono"}
             </button>

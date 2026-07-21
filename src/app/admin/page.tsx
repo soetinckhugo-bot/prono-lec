@@ -4,8 +4,8 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TeamLogo } from "@/components/team-logo";
-import { Plus, Save, Trash2, Shield } from "lucide-react";
 import { LEC_TEAMS } from "@/lib/teams";
+import { Plus, Save, Trash2, Shield } from "lucide-react";
 
 type Match = {
   id: string;
@@ -73,7 +73,7 @@ export default function AdminPage() {
 
   if (session?.user?.role !== "admin") {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-12 text-center">
+      <div className="rounded-2xl border border-white/10 bg-surface/60 p-12 text-center backdrop-blur-xl">
         <Shield className="mx-auto mb-4 h-12 w-12 text-text-muted" />
         <p className="text-lg text-text-muted">Cette page est réservée au compte admin.</p>
       </div>
@@ -83,13 +83,13 @@ export default function AdminPage() {
   return (
     <div className="mx-auto max-w-5xl">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-black tracking-tight">Gestion des matchs</h1>
-        <a href="/admin/users" className="rounded-xl bg-white/10 px-4 py-2 text-sm font-bold transition-all hover:bg-white/20">
+        <h1 className="text-3xl font-black tracking-tight md:text-4xl">Gestion des matchs</h1>
+        <a href="/admin/users" className="rounded-xl border border-white/10 bg-surface-elevated px-4 py-2 text-sm font-bold text-text-muted transition-all hover:border-primary/30 hover:text-primary">
           Gérer les utilisateurs
         </a>
       </div>
 
-      <form onSubmit={createMatch} className="mb-10 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+      <form onSubmit={createMatch} className="mb-10 rounded-2xl border border-white/10 bg-surface/60 p-6 backdrop-blur-xl">
         <h2 className="mb-4 flex items-center gap-2 text-lg font-bold">
           <Plus className="h-5 w-5 text-primary" />
           Ajouter un match
@@ -133,16 +133,16 @@ export default function AdminPage() {
             className="rounded-xl border border-white/10 bg-white px-3 py-2.5 font-medium text-bg"
           />
         </div>
-        <button type="submit" className="mt-4 rounded-xl bg-primary px-6 py-2.5 font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-hover">
+        <button type="submit" className="mt-4 rounded-xl bg-primary px-6 py-2.5 font-bold text-bg shadow-lg shadow-primary/20 transition-all hover:bg-primary-hover">
           Ajouter le match
         </button>
       </form>
 
       <div className="space-y-4">
         {matches.map((m) => (
-          <div key={m.id} className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all hover:bg-white/[0.07]">
+          <div key={m.id} className="rounded-2xl border border-white/10 bg-surface/60 p-5 transition-all hover:border-white/20">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-3">
                   <TeamLogo name={m.teamA} size={40} />
                   <span className="font-bold">{m.teamA}</span>
@@ -152,7 +152,7 @@ export default function AdminPage() {
                   <TeamLogo name={m.teamB} size={40} />
                   <span className="font-bold">{m.teamB}</span>
                 </div>
-                <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs font-bold">{m.format}</span>
+                <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold">{m.format}</span>
               </div>
               <p className="text-sm text-text-muted">
                 {new Date(m.scheduledAt).toLocaleString("fr-FR")}
@@ -193,7 +193,7 @@ export default function AdminPage() {
               />
               <button
                 onClick={() => setResultMatch(m.id)}
-                className="flex items-center gap-1.5 rounded-xl bg-success px-4 py-2 text-sm font-bold text-white transition-all hover:opacity-90"
+                className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-bg transition-all hover:bg-primary-hover"
               >
                 <Save className="h-4 w-4" />
                 Enregistrer

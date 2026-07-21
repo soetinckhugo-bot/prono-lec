@@ -51,7 +51,7 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
   const selectedTeam = winner === "teamA" ? match.teamA : match.teamB;
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/10 bg-bg p-5">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-white/10 bg-surface p-5">
       {error && <p className="mb-4 rounded-xl bg-danger/10 p-3 text-sm text-danger">{error}</p>}
 
       <div className="mb-4 grid grid-cols-2 gap-4">
@@ -89,7 +89,7 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
             min={0}
             value={scoreA}
             onChange={(e) => setScoreA(Number(e.target.value))}
-            className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg"
+            className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
           />
         </div>
         <div className="flex flex-col items-center justify-center">
@@ -103,7 +103,7 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
             min={0}
             value={scoreB}
             onChange={(e) => setScoreB(Number(e.target.value))}
-            className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg"
+            className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
           />
         </div>
       </div>
@@ -112,7 +112,7 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 rounded-xl bg-primary py-3 font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-hover hover:shadow-primary/30 disabled:opacity-50"
+          className="flex-1 rounded-xl bg-primary py-3 font-bold text-bg shadow-lg shadow-primary/20 transition-all hover:bg-primary-hover hover:shadow-primary/30 disabled:opacity-50"
         >
           {loading ? "Enregistrement..." : "Enregistrer"}
         </button>

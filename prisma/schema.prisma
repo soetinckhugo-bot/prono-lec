@@ -26,6 +26,7 @@ model Match {
   teamA         String
   teamB         String
   format        String        // BO1, BO3, BO5
+  split         String?
   scheduledAt   DateTime      @default(now())
   winner        String?       // teamA ou teamB
   scoreA        Int?          // victoires teamA

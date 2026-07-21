@@ -22,7 +22,7 @@ type Match = {
 export default function AdminPage() {
   const { status, data: session } = useSession();
   const [matches, setMatches] = useState<Match[]>([]);
-  const [form, setForm] = useState({ teamA: "", teamB: "", format: "BO3", scheduledAt: "" });
+  const [form, setForm] = useState({ teamA: "", teamB: "", format: "BO3", split: "LEC Summer 2026", scheduledAt: "" });
   const [result, setResult] = useState<Record<string, { winner: string; scoreA: string; scoreB: string }>>({});
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function AdminPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
-    setForm({ teamA: "", teamB: "", format: "BO3", scheduledAt: "" });
+    setForm({ teamA: "", teamB: "", format: "BO3", split: "LEC Summer 2026", scheduledAt: "" });
     fetchMatches();
   }
 
@@ -94,7 +94,7 @@ export default function AdminPage() {
           <Plus className="h-5 w-5 text-primary" />
           Ajouter un match
         </h2>
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-5">
           <select
             value={form.teamA}
             onChange={(e) => setForm({ ...form, teamA: e.target.value })}
@@ -126,6 +126,13 @@ export default function AdminPage() {
             <option value="BO3">BO3</option>
             <option value="BO5">BO5</option>
           </select>
+          <input
+            type="text"
+            placeholder="Split"
+            value={form.split}
+            onChange={(e) => setForm({ ...form, split: e.target.value })}
+            className="rounded-xl border border-white/10 bg-white px-3 py-2.5 font-medium text-bg"
+          />
           <input
             type="datetime-local"
             value={form.scheduledAt}

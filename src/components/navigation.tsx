@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { Trophy, LogOut, Users, Shield } from "lucide-react";
+import { Trophy, LogOut, Users, Shield, BarChart3 } from "lucide-react";
 
 export function Navigation() {
   const { data: session, status } = useSession();
@@ -23,6 +23,10 @@ export function Navigation() {
               <Link href="/matches" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
                 <Users className="h-4 w-4" />
                 Matchs
+              </Link>
+              <Link href="/dashboard" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
+                <BarChart3 className="h-4 w-4" />
+                Dashboard
               </Link>
               <Link href="/leaderboard" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
                 <Trophy className="h-4 w-4" />

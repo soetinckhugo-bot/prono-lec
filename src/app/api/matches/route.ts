@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   if (!isAdmin) return Response.json({ error: "Forbidden" }, { status: 403 });
 
   try {
-    const { teamA, teamB, format, scheduledAt } = await req.json();
+    const { teamA, teamB, format, split, scheduledAt } = await req.json();
     if (!teamA || !teamB || !format) {
       return Response.json({ error: "Champs manquants" }, { status: 400 });
     }
@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
         teamA,
         teamB,
         format,
+        split,
         scheduledAt: scheduledAt ? new Date(scheduledAt) : new Date(),
       },
     });

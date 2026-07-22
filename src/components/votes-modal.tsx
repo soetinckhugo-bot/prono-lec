@@ -45,85 +45,83 @@ export function VotesModal({ matchId, teamA, teamB, onClose }: VotesModalProps) 
   }, [matchId]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-surface/90 p-6 shadow-2xl backdrop-blur-xl">
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-xl font-black tracking-tight flex items-center gap-2">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+      <div className="flex max-h-[85vh] w-full max-w-lg flex-col rounded-2xl border border-white/10 bg-surface shadow-2xl backdrop-blur-xl">
+        <div className="flex items-center justify-between border-b border-white/10 p-5">
+          <h3 className="flex items-center gap-2 text-xl font-black tracking-tight">
             <Users className="h-5 w-5 text-primary" />
             Votes
           </h3>
-          <button onClick={onClose} className="rounded-full p-1 hover:bg-white/10 transition-colors">
+          <button onClick={onClose} className="rounded-full p-1 transition-colors hover:bg-white/10">
             <X className="h-5 w-5 text-text-muted" />
           </button>
         </div>
 
-        {loading && <p className="text-center text-text-muted py-8">Chargement...</p>}
+        <div className="flex-1 overflow-y-auto p-5">
+          {loading && <p className="py-8 text-center text-text-muted">Chargement...</p>}
 
-        {!loading && data && (
-          <>
-            <div className="mb-6 grid grid-cols-2 gap-4">
-              <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
-                <TeamLogo name={teamA} size={48} />
-                <p className="mt-2 font-bold">{teamA}</p>
-                <p className="text-2xl font-black text-primary">{data.teamAPct}%</p>
-                <p className="text-xs text-text-muted">{Math.round((data.teamAPct / 100) * data.total)} votes</p>
+          {!loading && data && (
+            <>
+              <div className="mb-5 grid grid-cols-2 gap-3">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
+                  <TeamLogo name={teamA} size={44} />
+                  <p className="mt-2 truncate text-sm font-bold">{teamA}</p>
+                  <p className="text-2xl font-black text-primary">{data.teamAPct}%</p>
+                  <p className="text-xs text-text-muted">{Math.round((data.teamAPct / 100) * data.total)} votes</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
+                  <TeamLogo name={teamB} size={44} />
+                  <p className="mt-2 truncate text-sm font-bold">{teamB}</p>
+                  <p className="text-2xl font-black text-primary">{data.teamBPct}%</p>
+                  <p className="text-xs text-text-muted">{Math.round((data.teamBPct / 100) * data.total)} votes</p>
+                </div>
               </div>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-center">
-                <TeamLogo name={teamB} size={48} />
-                <p className="mt-2 font-bold">{teamB}</p>
-                <p className="text-2xl font-black text-primary">{data.teamBPct}%</p>
-                <p className="text-xs text-text-muted">{Math.round((data.teamBPct / 100) * data.total)} votes</p>
+
+              <div className="mb-5 h-4 w-full overflow-hidden rounded-full bg-white/10">
+                <div className="h-full bg-primary transition-all" style={{ width: `${data.teamAPct}%` }} />
               </div>
-            </div>
 
-            <div className="mb-6 h-4 w-full overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full bg-primary transition-all"
-                style={{ width: `${data.teamAPct}%` }}
-              />
-            </div>
-
-            {data.total === 0 ? (
-              <p className="text-center text-text-muted py-4">Aucun vote pour le moment.</p>
-            ) : (
-              <div className="max-h-72 overflow-y-auto rounded-xl border border-white/10">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-white/5 text-text-muted">
-                    <tr>
-                      <th className="px-4 py-2">Votant</th>
-                      <th className="px-4 py-2">Prono</th>
-                      <th className="px-4 py-2 text-right">Pts</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
+              {data.total === 0 ? (
+                <p className="py-4 text-center text-text-muted">Aucun vote pour le moment.</p>
+              ) : (
+                <div className="rounded-xl border border-white/10">
+                  <div className="grid grid-cols-3 gap-2 border-b border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-text-muted">
+                    <span>Votant</span>
+                    <span className="text-center">Prono</span>
+                    <span className="text-right">Pts</span>
+                  </div>
+                  <div className="max-h-60 overflow-y-auto">
                     {data.votes.map((v) => {
                       const winnerTeam = v.winner === "teamA" ? v.teamA : v.teamB;
                       const isBo1 = v.scoreA + v.scoreB === 1;
                       return (
-                        <tr key={v.id} className="hover:bg-white/5">
-                          <td className="px-4 py-2 font-semibold">{v.username}</td>
-                          <td className="px-4 py-2">
+                        <div
+                          key={v.id}
+                          className="grid grid-cols-3 items-center gap-2 border-b border-white/5 px-4 py-3 text-sm last:border-b-0 hover:bg-white/5"
+                        >
+                          <span className="truncate font-semibold">{v.username}</span>
+                          <span className="truncate text-center">
                             <span className="font-bold text-primary">{winnerTeam}</span>
                             {!isBo1 && (
-                              <span className="ml-2 text-text-muted">{v.scoreA}-{v.scoreB}</span>
+                              <span className="ml-1 text-text-muted">{v.scoreA}-{v.scoreB}</span>
                             )}
-                          </td>
-                          <td className="px-4 py-2 text-right">
+                          </span>
+                          <span className="text-right">
                             {v.points > 0 ? (
                               <span className="font-bold text-primary">+{v.points}</span>
                             ) : (
                               <span className="text-text-muted">-</span>
                             )}
-                          </td>
-                        </tr>
+                          </span>
+                        </div>
                       );
                     })}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </>
-        )}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

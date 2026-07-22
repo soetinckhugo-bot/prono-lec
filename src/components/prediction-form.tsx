@@ -19,19 +19,66 @@ type PredictionFormProps = {
   onUpdate: () => void;
 };
 
+const MAX_SCORE: Record<string, number> = { BO1: 1, BO3: 2, BO5: 3 };
+
 export function PredictionForm({ match, existing, onClose, onUpdate }: PredictionFormProps) {
   const isBo1 = match.format === "BO1";
-  const [winner, setWinner] = useState(existing?.winner || "teamA");
+  const maxScore = MAX_SCORE[match.format] ?? 2;
+
   const [scoreA, setScoreA] = useState(existing?.scoreA ?? (isBo1 ? 1 : 0));
   const [scoreB, setScoreB] = useState(existing?.scoreB ?? 0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const winner = scoreA > scoreB ? "teamA" : scoreB > scoreA ? "teamB" : "teamA";
+  const selectedTeam = winner === "teamA" ? match.teamA : match.teamB;
+
+  function setWinner(team: "teamA" | "teamB") {
+    if (team === "teamA") {
+      setScoreA(maxScore);
+      setScoreB(0);
+    } else {
+      setScoreA(0);
+      setScoreB(maxScore);
+    }
+  }
+
+  function updateScoreA(val: number) {
+    const n = Math.max(0, Math.min(maxScore, val));
+    setScoreA(n);
+    if (n === maxScore) setScoreB(Math.min(scoreB, maxScore - 1));
+  }
+
+  function updateScoreB(val: number) {
+    const n = Math.max(0, Math.min(maxScore, val));
+    setScoreB(n);
+    if (n === maxScore) setScoreA(Math.min(scoreA, maxScore - 1));
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
+    if (scoreA === scoreB) {
+      setError("Le score ne peut pas être une égalité.");
+      return;
+    }
+    if (scoreA > maxScore || scoreB > maxScore) {
+      setError(`Score maximum pour un ${match.format} : ${maxScore}.`);
+      return;
+    }
+    const winningScore = Math.max(scoreA, scoreB);
+    const losingScore = Math.min(scoreA, scoreB);
+    if (winningScore !== maxScore) {
+      setError(`Le vainqueur doit avoir ${maxScore} manches gagnantes.`);
+      return;
+    }
+    if (losingScore < 0 || losingScore > maxScore - 1) {
+      setError(`Score perdant invalide pour un ${match.format}.`);
+      return;
+    }
+
+    setLoading(true);
     const body = isBo1
       ? { matchId: match.id, winner, scoreA: winner === "teamA" ? 1 : 0, scoreB: winner === "teamB" ? 1 : 0 }
       : { matchId: match.id, winner, scoreA, scoreB };
@@ -53,8 +100,6 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
     onUpdate();
     onClose();
   }
-
-  const selectedTeam = winner === "teamA" ? match.teamA : match.teamB;
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-white/10 bg-surface p-5">
@@ -94,8 +139,9 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
             <input
               type="number"
               min={0}
+              max={maxScore}
               value={scoreA}
-              onChange={(e) => setScoreA(Number(e.target.value))}
+              onChange={(e) => updateScoreA(Number(e.target.value))}
               className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
             />
           </div>
@@ -108,8 +154,9 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
             <input
               type="number"
               min={0}
+              max={maxScore}
               value={scoreB}
-              onChange={(e) => setScoreB(Number(e.target.value))}
+              onChange={(e) => updateScoreB(Number(e.target.value))}
               className="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-center font-bold text-bg transition-all focus:border-primary focus:ring-2 focus:ring-primary/50"
             />
           </div>

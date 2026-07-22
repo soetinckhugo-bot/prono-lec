@@ -58,7 +58,7 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
 
       <div className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${teamAColor}, ${teamBColor})` }} />
 
-      <div className="mb-4 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-text-muted">
+      <div className="mb-4 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-white/90">
         <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{match.format}</span>
         <span>{new Date(match.scheduledAt).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}</span>
       </div>
@@ -103,18 +103,18 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
               <TeamLogo name={match.teamB} size={24} />
             </div>
           </div>
+          <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-wider text-white/80">
+            {totalVotes} vote{totalVotes > 1 ? "s" : ""}
+          </p>
           <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="absolute left-0 top-0 h-full transition-all"
+              className="absolute left-0 top-0 h-full animate-vote-bar"
               style={{ width: `${teamAPct}%`, backgroundColor: teamAColor }}
             />
             <div
-              className="absolute right-0 top-0 h-full transition-all"
+              className="absolute right-0 top-0 h-full animate-vote-bar"
               style={{ width: `${teamBPct}%`, backgroundColor: teamBColor }}
             />
-            <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white/80">
-              {totalVotes} vote{totalVotes > 1 ? "s" : ""}
-            </span>
           </div>
         </div>
       )}

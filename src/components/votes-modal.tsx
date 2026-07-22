@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { X, Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { getTeamColor } from "@/lib/teams";
 
 type Vote = {
   id: string;
@@ -72,6 +73,7 @@ export function VotesModal({ matchId, teamA, teamB, onClose }: VotesModalProps) 
                 <div className="space-y-1.5">
                   {pageVotes.map((v) => {
                     const winnerTeam = v.winner === "teamA" ? v.teamA : v.teamB;
+                    const winnerColor = getTeamColor(winnerTeam);
                     const isBo1 = v.scoreA + v.scoreB === 1;
                     return (
                       <div
@@ -80,9 +82,9 @@ export function VotesModal({ matchId, teamA, teamB, onClose }: VotesModalProps) 
                       >
                         <span className="truncate text-sm font-semibold">{v.username}</span>
                         <span className="shrink-0 text-xs">
-                          <span className="font-bold text-primary">{winnerTeam}</span>
+                          <span className="font-bold" style={{ color: winnerColor }}>{winnerTeam}</span>
                           {!isBo1 && (
-                            <span className="ml-1 text-text-muted">{v.scoreA}-{v.scoreB}</span>
+                            <span className="ml-1 text-white/70">{v.scoreA}-{v.scoreB}</span>
                           )}
                         </span>
                       </div>

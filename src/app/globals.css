@@ -70,6 +70,20 @@ button {
   animation-delay: 4s;
 }
 
+.animate-vote-bar {
+  transition: width 1s ease-out;
+  animation: vote-bar-pulse 2s ease-in-out infinite;
+}
+
+@keyframes vote-bar-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
 /* Smooth glow hover effect */
 .glow-hover {
   transition: box-shadow 0.3s ease, transform 0.3s ease;

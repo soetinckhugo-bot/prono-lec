@@ -67,18 +67,20 @@ export function VotesModal({ matchId, teamA, teamB, onClose }: VotesModalProps) 
 
           {!loading && data && (
             <>
-              <div className="mb-4 grid grid-cols-2 gap-2">
-                <div className="rounded-lg border border-white/10 bg-white/5 p-3 text-center">
-                  <TeamLogo name={teamA} size={32} />
-                  <p className="mt-1 truncate text-xs font-bold">{teamA}</p>
-                  <p className="text-xl font-black text-primary">{data.teamAPct}%</p>
-                  <p className="text-[10px] text-text-muted">{Math.round((data.teamAPct / 100) * data.total)} votes</p>
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <TeamLogo name={teamA} size={28} />
+                  <div>
+                    <p className="text-xs font-bold">{teamA}</p>
+                    <p className="text-lg font-black leading-none text-primary">{data.teamAPct}%</p>
+                  </div>
                 </div>
-                <div className="rounded-lg border border-white/10 bg-white/5 p-3 text-center">
-                  <TeamLogo name={teamB} size={32} />
-                  <p className="mt-1 truncate text-xs font-bold">{teamB}</p>
-                  <p className="text-xl font-black text-primary">{data.teamBPct}%</p>
-                  <p className="text-[10px] text-text-muted">{Math.round((data.teamBPct / 100) * data.total)} votes</p>
+                <div className="flex items-center gap-2 text-right">
+                  <div>
+                    <p className="text-xs font-bold">{teamB}</p>
+                    <p className="text-lg font-black leading-none text-primary">{data.teamBPct}%</p>
+                  </div>
+                  <TeamLogo name={teamB} size={28} />
                 </div>
               </div>
 

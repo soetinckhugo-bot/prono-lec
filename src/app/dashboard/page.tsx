@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TeamLogo } from "@/components/team-logo";
+import { getTeamColor } from "@/lib/teams";
 import { Trophy, Target, XCircle, CheckCircle2, CalendarDays } from "lucide-react";
 
 type HistoryItem = {
@@ -114,21 +115,28 @@ export default function DashboardPage() {
           <p className="text-white">Aucune donnée.</p>
         ) : (
           <div className="grid gap-3 md:grid-cols-2">
-            {data.teamStats.map((t) => (
-              <div key={t.team} className="rounded-2xl border border-white/10 bg-surface/60 p-4 backdrop-blur-xl">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <TeamLogo name={t.team} size={32} />
-                    <span className="font-bold">{t.team}</span>
+            {data.teamStats.map((t) => {
+              const color = getTeamColor(t.team);
+              return (
+                <div
+                  key={t.team}
+                  className="rounded-2xl border border-white/10 bg-surface/60 p-4 backdrop-blur-xl"
+                  style={{ boxShadow: `inset 0 2px 0 0 ${color}` }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <TeamLogo name={t.team} size={32} />
+                      <span className="font-bold" style={{ color }}>{t.team}</span>
+                    </div>
+                    <span className="text-xl font-black" style={{ color }}>{t.pct}%</span>
                   </div>
-                  <span className="text-xl font-black text-primary">{t.pct}%</span>
+                  <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full transition-all" style={{ width: `${t.pct}%`, backgroundColor: color }} />
+                  </div>
+                  <p className="mt-2 text-xs text-white">{t.correct} bons sur {t.played} matchs</p>
                 </div>
-                <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white/10">
-                  <div className="h-full bg-primary transition-all" style={{ width: `${t.pct}%` }} />
-                </div>
-                <p className="mt-2 text-xs text-white">{t.correct} bons sur {t.played} matchs</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
@@ -160,8 +168,14 @@ export default function DashboardPage() {
                     <div className="text-right">
                       <p className="text-sm text-white">Prono</p>
                       <p className="font-bold">
-                        {predictedTeam}
-                        {!isBo1 && <span className="ml-2 text-white">{h.predictionScoreA}-{h.predictionScoreB}</span>}
+                        <span style={{ color: getTeamColor(predictedTeam) }}>{predictedTeam}</span>
+                        {!isBo1 && (
+                          <span className="ml-2 text-white">
+                            {h.predictionWinner === "teamA" ? h.predictionScoreA : h.predictionScoreB}
+                            -
+                            {h.predictionWinner === "teamA" ? h.predictionScoreB : h.predictionScoreA}
+                          </span>
+                        )}
                       </p>
                     </div>
                     <div className="text-right">

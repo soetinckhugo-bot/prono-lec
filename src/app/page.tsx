@@ -10,7 +10,6 @@ export default function HomePage() {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +35,6 @@ export default function HomePage() {
     const res = await signIn("credentials", {
       username,
       password,
-      rememberMe: String(rememberMe),
       redirect: false,
     });
 
@@ -100,18 +98,6 @@ export default function HomePage() {
               <p className="mt-1 text-xs text-white">Minimum 4 caractères</p>
             )}
           </div>
-
-          {isLogin && (
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-white">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 rounded border-white/10 bg-white/5 text-primary focus:ring-primary"
-              />
-              Se souvenir de moi
-            </label>
-          )}
 
           <button
             type="submit"

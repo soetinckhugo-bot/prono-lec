@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Shield, Ban, CheckCircle, Users } from "lucide-react";
+import { Shield, Ban, CheckCircle, Users, KeyRound } from "lucide-react";
 
 type UserAdmin = {
   id: string;
@@ -32,6 +32,26 @@ export default function AdminUsersPage() {
     const data = await r.json();
     setUsers(data);
     setLoading(false);
+  }
+
+  async function resetPassword(userId: string) {
+    const newPassword = window.prompt("Nouveau mot de passe pour cet utilisateur :");
+    if (!newPassword) return;
+    if (newPassword.length < 4) {
+      alert("Le mot de passe doit faire au moins 4 caractères.");
+      return;
+    }
+    const r = await fetch("/api/admin/users", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, password: newPassword }),
+    });
+    if (!r.ok) {
+      alert("Erreur lors de la réinitialisation.");
+    } else {
+      alert("Mot de passe mis à jour.");
+      fetchUsers();
+    }
   }
 
   async function toggleBan(userId: string, isBanned: boolean) {
@@ -105,16 +125,24 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="px-6 py-4 text-center">
                   {u.role !== "admin" && (
-                    <button
-                      onClick={() => toggleBan(u.id, !u.isBanned)}
-                      className={`rounded-xl px-4 py-2 text-sm font-bold transition-all ${
-                        u.isBanned
-                          ? "bg-primary text-bg hover:bg-primary-hover"
-                          : "bg-danger text-white hover:opacity-90"
-                      }`}
-                    >
-                      {u.isBanned ? "Débannir" : "Bannir"}
-                    </button>
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => resetPassword(u.id)}
+                        className="rounded-xl bg-white/10 px-3 py-2 text-sm font-bold text-white transition-all hover:bg-white/20"
+                      >
+                        <KeyRound className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => toggleBan(u.id, !u.isBanned)}
+                        className={`rounded-xl px-4 py-2 text-sm font-bold transition-all ${
+                          u.isBanned
+                            ? "bg-primary text-bg hover:bg-primary-hover"
+                            : "bg-danger text-white hover:opacity-90"
+                        }`}
+                      >
+                        {u.isBanned ? "Débannir" : "Bannir"}
+                      </button>
+                    </div>
                   )}
                 </td>
               </tr>

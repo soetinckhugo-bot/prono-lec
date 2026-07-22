@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
 const THIRTY_DAYS = 30 * 24 * 60 * 60;
-const ONE_DAY = 24 * 60 * 60;
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,7 +12,6 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
-        rememberMe: { label: "Remember me", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
@@ -28,12 +26,7 @@ export const authOptions: NextAuthOptions = {
         const isValid = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!isValid) return null;
 
-        return {
-          id: user.id,
-          name: user.username,
-          role: user.role,
-          rememberMe: credentials.rememberMe === "true",
-        };
+        return { id: user.id, name: user.username, role: user.role };
       },
     }),
   ],
@@ -43,17 +36,10 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token?.sub) session.user.id = token.sub;
       if (token?.role) session.user.role = token.role as string;
-      if (token?.rememberMe) session.user.rememberMe = token.rememberMe as boolean;
       return session;
     },
     async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role;
-        token.rememberMe = user.rememberMe;
-        if (user.rememberMe === false) {
-          token.exp = Math.floor(Date.now() / 1000) + ONE_DAY;
-        }
-      }
+      if (user) token.role = user.role;
       return token;
     },
   },

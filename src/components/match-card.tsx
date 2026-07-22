@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PredictionForm } from "./prediction-form";
 import { VotesModal } from "./votes-modal";
 import { TeamLogo } from "./team-logo";
+import { getTeamColor } from "@/lib/teams";
 import { Lock, Users } from "lucide-react";
 
 type MatchCardProps = {
@@ -36,11 +37,16 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
   const myPrediction = match.predictions.find((p) => p.userId === userId);
   const isFinished = !!match.winner && match.scoreA !== null && match.scoreB !== null;
   const totalVotes = match.predictions.length;
+  const teamAColor = getTeamColor(match.teamA);
+  const teamBColor = getTeamColor(match.teamB);
   const teamAPct = totalVotes ? Math.round((match.predictions.filter((p) => p.winner === "teamA").length / totalVotes) * 100) : 0;
   const teamBPct = totalVotes ? 100 - teamAPct : 0;
 
   return (
-    <div className="group overflow-hidden rounded-2xl border border-white/10 bg-surface/60 p-5 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-surface-elevated/80 hover:shadow-2xl hover:shadow-primary/5">
+    <div
+      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-surface/60 p-5 backdrop-blur-xl transition-all hover:bg-surface-elevated/80 hover:shadow-2xl"
+      style={{ boxShadow: `0 0 0 1px rgba(255,255,255,0.05), inset 0 2px 0 0 ${teamAColor}, inset 0 -2px 0 0 ${teamBColor}` }}
+    >
       {showVotes && (
         <VotesModal
           matchId={match.id}
@@ -50,6 +56,8 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
         />
       )}
 
+      <div className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${teamAColor}, ${teamBColor})` }} />
+
       <div className="mb-4 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-text-muted">
         <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1">{match.format}</span>
         <span>{new Date(match.scheduledAt).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })}</span>
@@ -58,7 +66,7 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-1 flex-col items-center gap-3 text-center">
           <TeamLogo name={match.teamA} size={64} />
-          <span className="text-lg font-bold">{match.teamA}</span>
+          <span className="text-lg font-bold" style={{ color: teamAColor }}>{match.teamA}</span>
         </div>
 
         <div className="flex flex-col items-center gap-1">
@@ -73,7 +81,7 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
 
         <div className="flex flex-1 flex-col items-center gap-3 text-center">
           <TeamLogo name={match.teamB} size={64} />
-          <span className="text-lg font-bold">{match.teamB}</span>
+          <span className="text-lg font-bold" style={{ color: teamBColor }}>{match.teamB}</span>
         </div>
       </div>
 
@@ -83,20 +91,30 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
             <div className="flex items-center gap-2">
               <TeamLogo name={match.teamA} size={24} />
               <div>
-                <p className="text-xs font-bold leading-tight">{match.teamA}</p>
-                <p className="text-sm font-black leading-tight text-primary">{teamAPct}%</p>
+                <p className="text-xs font-bold leading-tight" style={{ color: teamAColor }}>{match.teamA}</p>
+                <p className="text-sm font-black leading-tight" style={{ color: teamAColor }}>{teamAPct}%</p>
               </div>
             </div>
             <div className="flex items-center gap-2 text-right">
               <div>
-                <p className="text-xs font-bold leading-tight">{match.teamB}</p>
-                <p className="text-sm font-black leading-tight text-primary">{teamBPct}%</p>
+                <p className="text-xs font-bold leading-tight" style={{ color: teamBColor }}>{match.teamB}</p>
+                <p className="text-sm font-black leading-tight" style={{ color: teamBColor }}>{teamBPct}%</p>
               </div>
               <TeamLogo name={match.teamB} size={24} />
             </div>
           </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-            <div className="h-full bg-primary transition-all" style={{ width: `${teamAPct}%` }} />
+          <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-white/10">
+            <div
+              className="absolute left-0 top-0 h-full transition-all"
+              style={{ width: `${teamAPct}%`, backgroundColor: teamAColor }}
+            />
+            <div
+              className="absolute right-0 top-0 h-full transition-all"
+              style={{ width: `${teamBPct}%`, backgroundColor: teamBColor }}
+            />
+            <span className="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white/80">
+              {totalVotes} vote{totalVotes > 1 ? "s" : ""}
+            </span>
           </div>
         </div>
       )}
@@ -104,16 +122,23 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
       {myPrediction && (
         <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-3">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-text-muted">Ton prono</span>
+            <div className="flex items-center gap-2">
+              <span className="text-text-muted">Ton prono</span>
+              <span className="font-semibold" style={{ color: myPrediction.winner === "teamA" ? teamAColor : teamBColor }}>
+                {myPrediction.winner === "teamA" ? match.teamA : match.teamB}
+              </span>
+              <span className="font-semibold text-white">
+                {myPrediction.winner === "teamA" ? myPrediction.scoreA : myPrediction.scoreB}
+                -
+                {myPrediction.winner === "teamA" ? myPrediction.scoreB : myPrediction.scoreA}
+              </span>
+            </div>
             {isFinished && (
               <span className={`font-bold ${myPrediction.points > 0 ? "text-primary" : "text-danger"}`}>
                 {myPrediction.points} pts
               </span>
             )}
           </div>
-          <p className="mt-1 font-semibold">
-            {myPrediction.winner === "teamA" ? match.teamA : match.teamB} {myPrediction.scoreA}-{myPrediction.scoreB}
-          </p>
         </div>
       )}
 

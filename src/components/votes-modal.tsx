@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TeamLogo } from "./team-logo";
 import { X, Users, ChevronLeft, ChevronRight } from "lucide-react";
 
 type Vote = {
@@ -67,27 +66,6 @@ export function VotesModal({ matchId, teamA, teamB, onClose }: VotesModalProps) 
 
           {!loading && data && (
             <>
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <TeamLogo name={teamA} size={28} />
-                  <div>
-                    <p className="text-xs font-bold">{teamA}</p>
-                    <p className="text-lg font-black leading-none text-primary">{data.teamAPct}%</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-right">
-                  <div>
-                    <p className="text-xs font-bold">{teamB}</p>
-                    <p className="text-lg font-black leading-none text-primary">{data.teamBPct}%</p>
-                  </div>
-                  <TeamLogo name={teamB} size={28} />
-                </div>
-              </div>
-
-              <div className="mb-4 h-2.5 w-full overflow-hidden rounded-full bg-white/10">
-                <div className="h-full bg-primary transition-all" style={{ width: `${data.teamAPct}%` }} />
-              </div>
-
               {data.total === 0 ? (
                 <p className="py-4 text-center text-sm text-text-muted">Aucun vote pour le moment.</p>
               ) : (

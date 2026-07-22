@@ -35,6 +35,9 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
   const [showVotes, setShowVotes] = useState(false);
   const myPrediction = match.predictions.find((p) => p.userId === userId);
   const isFinished = !!match.winner && match.scoreA !== null && match.scoreB !== null;
+  const totalVotes = match.predictions.length;
+  const teamAPct = totalVotes ? Math.round((match.predictions.filter((p) => p.winner === "teamA").length / totalVotes) * 100) : 0;
+  const teamBPct = totalVotes ? 100 - teamAPct : 0;
 
   return (
     <div className="group overflow-hidden rounded-2xl border border-white/10 bg-surface/60 p-5 backdrop-blur-xl transition-all hover:border-primary/30 hover:bg-surface-elevated/80 hover:shadow-2xl hover:shadow-primary/5">
@@ -73,6 +76,30 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
           <span className="text-lg font-bold">{match.teamB}</span>
         </div>
       </div>
+
+      {totalVotes > 0 && (
+        <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-3">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <TeamLogo name={match.teamA} size={24} />
+              <div>
+                <p className="text-xs font-bold leading-tight">{match.teamA}</p>
+                <p className="text-sm font-black leading-tight text-primary">{teamAPct}%</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-right">
+              <div>
+                <p className="text-xs font-bold leading-tight">{match.teamB}</p>
+                <p className="text-sm font-black leading-tight text-primary">{teamBPct}%</p>
+              </div>
+              <TeamLogo name={match.teamB} size={24} />
+            </div>
+          </div>
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+            <div className="h-full bg-primary transition-all" style={{ width: `${teamAPct}%` }} />
+          </div>
+        </div>
+      )}
 
       {myPrediction && (
         <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-3">

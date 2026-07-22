@@ -61,7 +61,7 @@ export default function HomePage() {
           Pronostique les matchs{" "}
           <span className="text-primary">LEC</span>
         </h1>
-        <p className="mt-6 text-lg text-text-muted">
+        <p className="mt-6 text-lg text-white">
           Crée un compte, fais tes pronos sur les matchs League of Legends EMEA Championship, et grimpe dans le classement.
         </p>
       </div>
@@ -78,7 +78,7 @@ export default function HomePage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-2 block text-sm font-medium text-text-muted">Pseudo</label>
+            <label className="mb-2 block text-sm font-medium text-white">Pseudo</label>
             <input
               type="text"
               value={username}
@@ -88,7 +88,7 @@ export default function HomePage() {
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-text-muted">Mot de passe</label>
+            <label className="mb-2 block text-sm font-medium text-white">Mot de passe</label>
             <input
               type="password"
               value={password}
@@ -97,12 +97,12 @@ export default function HomePage() {
               required
             />
             {!isLogin && (
-              <p className="mt-1 text-xs text-text-muted">Minimum 4 caractères</p>
+              <p className="mt-1 text-xs text-white">Minimum 4 caractères</p>
             )}
           </div>
 
           {isLogin && (
-            <label className="flex cursor-pointer items-center gap-2 text-sm text-text-muted">
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-white">
               <input
                 type="checkbox"
                 checked={rememberMe}
@@ -124,7 +124,7 @@ export default function HomePage() {
 
         <button
           onClick={() => setIsLogin(!isLogin)}
-          className="mt-5 w-full text-center text-sm text-text-muted transition-colors hover:text-white"
+          className="mt-5 w-full text-center text-sm text-white transition-colors hover:text-white"
         >
           {isLogin ? "Pas encore de compte ? Inscris-toi" : "Déjà un compte ? Connecte-toi"}
         </button>

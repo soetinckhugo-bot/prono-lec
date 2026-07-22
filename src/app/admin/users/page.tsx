@@ -46,8 +46,8 @@ export default function AdminUsersPage() {
   if (session?.user?.role !== "admin") {
     return (
       <div className="rounded-2xl border border-white/10 bg-surface/60 p-12 text-center backdrop-blur-xl">
-        <Shield className="mx-auto mb-4 h-12 w-12 text-text-muted" />
-        <p className="text-lg text-text-muted">Cette page est réservée au compte admin.</p>
+        <Shield className="mx-auto mb-4 h-12 w-12 text-white" />
+        <p className="text-lg text-white">Cette page est réservée au compte admin.</p>
       </div>
     );
   }
@@ -71,12 +71,12 @@ export default function AdminUsersPage() {
         <table className="w-full text-left">
           <thead className="bg-white/5">
             <tr>
-              <th className="px-6 py-4 text-sm font-semibold text-text-muted">Pseudo</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Rôle</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Points</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Inscrit le</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Statut</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Action</th>
+              <th className="px-6 py-4 text-sm font-semibold text-white">Pseudo</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Rôle</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Points</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Inscrit le</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Statut</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
@@ -84,12 +84,12 @@ export default function AdminUsersPage() {
               <tr key={u.id} className="transition-colors hover:bg-white/5">
                 <td className="px-6 py-4 font-semibold text-white">{u.username}</td>
                 <td className="px-6 py-4 text-center">
-                  <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${u.role === "admin" ? "border border-primary/30 bg-primary/10 text-primary" : "border border-white/10 bg-white/5 text-text-muted"}`}>
+                  <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${u.role === "admin" ? "border border-primary/30 bg-primary/10 text-primary" : "border border-white/10 bg-white/5 text-white"}`}>
                     {u.role}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-center font-mono">{u.score}</td>
-                <td className="px-6 py-4 text-center text-sm text-text-muted">
+                <td className="px-6 py-4 text-center text-sm text-white">
                   {new Date(u.createdAt).toLocaleDateString("fr-FR")}
                 </td>
                 <td className="px-6 py-4 text-center">
@@ -123,7 +123,7 @@ export default function AdminUsersPage() {
         </table>
       </div>
 
-      {users.length === 0 && <p className="mt-8 text-center text-text-muted">Aucun utilisateur.</p>}
+      {users.length === 0 && <p className="mt-8 text-center text-white">Aucun utilisateur.</p>}
     </div>
   );
 }

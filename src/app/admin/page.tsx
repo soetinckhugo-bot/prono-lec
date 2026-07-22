@@ -83,8 +83,8 @@ export default function AdminPage() {
   if (session?.user?.role !== "admin") {
     return (
       <div className="rounded-2xl border border-white/10 bg-surface/60 p-12 text-center backdrop-blur-xl">
-        <Shield className="mx-auto mb-4 h-12 w-12 text-text-muted" />
-        <p className="text-lg text-text-muted">Cette page est réservée au compte admin.</p>
+        <Shield className="mx-auto mb-4 h-12 w-12 text-white" />
+        <p className="text-lg text-white">Cette page est réservée au compte admin.</p>
       </div>
     );
   }
@@ -93,7 +93,7 @@ export default function AdminPage() {
     <div className="mx-auto max-w-5xl">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-black tracking-tight md:text-4xl">Gestion des matchs</h1>
-        <a href="/admin/users" className="rounded-xl border border-white/10 bg-surface-elevated px-4 py-2 text-sm font-bold text-text-muted transition-all hover:border-primary/30 hover:text-primary">
+        <a href="/admin/users" className="rounded-xl border border-white/10 bg-surface-elevated px-4 py-2 text-sm font-bold text-white transition-all hover:border-primary/30 hover:text-primary">
           Gérer les utilisateurs
         </a>
       </div>
@@ -163,14 +163,14 @@ export default function AdminPage() {
                   <TeamLogo name={m.teamA} size={40} />
                   <span className="font-bold">{m.teamA}</span>
                 </div>
-                <span className="text-sm text-text-muted">vs</span>
+                <span className="text-sm text-white">vs</span>
                 <div className="flex items-center gap-3">
                   <TeamLogo name={m.teamB} size={40} />
                   <span className="font-bold">{m.teamB}</span>
                 </div>
                 <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold">{m.format}</span>
               </div>
-              <p className="text-sm text-text-muted">
+              <p className="text-sm text-white">
                 {new Date(m.scheduledAt).toLocaleString("fr-FR")}
                 {m.locked && " — verrouillé"}
                 {m.winner && ` — ${m.winner === "teamA" ? m.teamA : m.teamB} ${m.scoreA}-${m.scoreB}`}
@@ -222,8 +222,8 @@ export default function AdminPage() {
                 onClick={() => toggleLock(m.id, m.locked)}
                 className={`flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold transition-all ${
                   m.locked
-                    ? "border border-white/10 bg-white/5 text-text-muted hover:border-primary/30 hover:text-primary"
-                    : "border border-white/10 bg-white/5 text-text-muted hover:border-danger/30 hover:text-danger"
+                    ? "border border-white/10 bg-white/5 text-white hover:border-primary/30 hover:text-primary"
+                    : "border border-white/10 bg-white/5 text-white hover:border-danger/30 hover:text-danger"
                 }`}
               >
                 {m.locked ? <Unlock className="h-4 w-4" /> : <Lock className="h-4 w-4" />}

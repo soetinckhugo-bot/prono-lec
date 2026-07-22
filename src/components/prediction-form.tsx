@@ -135,7 +135,7 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
       {!isBo1 && (
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="mb-2 block text-sm font-medium text-text-muted">Score {match.teamA}</label>
+            <label className="mb-2 block text-sm font-medium text-white">Score {match.teamA}</label>
             <input
               type="number"
               min={0}
@@ -146,11 +146,11 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
             />
           </div>
           <div className="flex flex-col items-center justify-center">
-            <span className="text-sm text-text-muted">Vainqueur</span>
+            <span className="text-sm text-white">Vainqueur</span>
             <span className="font-bold text-primary">{selectedTeam}</span>
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium text-text-muted">Score {match.teamB}</label>
+            <label className="mb-2 block text-sm font-medium text-white">Score {match.teamB}</label>
             <input
               type="number"
               min={0}
@@ -165,7 +165,7 @@ export function PredictionForm({ match, existing, onClose, onUpdate }: Predictio
 
       {isBo1 && (
         <div className="rounded-xl border border-primary/30 bg-primary/10 p-4 text-center">
-          <p className="text-sm text-text-muted">Vainqueur choisi</p>
+          <p className="text-sm text-white">Vainqueur choisi</p>
           <p className="text-lg font-bold text-primary">{selectedTeam}</p>
         </div>
       )}

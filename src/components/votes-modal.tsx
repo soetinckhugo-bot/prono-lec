@@ -58,17 +58,17 @@ export function VotesModal({ matchId, teamA, teamB, onClose }: VotesModalProps) 
             Votes
           </h3>
           <button onClick={onClose} className="rounded-full p-1 transition-colors hover:bg-white/10">
-            <X className="h-4 w-4 text-text-muted" />
+            <X className="h-4 w-4 text-white" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
-          {loading && <p className="py-6 text-center text-sm text-text-muted">Chargement...</p>}
+          {loading && <p className="py-6 text-center text-sm text-white">Chargement...</p>}
 
           {!loading && data && (
             <>
               {data.total === 0 ? (
-                <p className="py-4 text-center text-sm text-text-muted">Aucun vote pour le moment.</p>
+                <p className="py-4 text-center text-sm text-white">Aucun vote pour le moment.</p>
               ) : (
                 <div className="space-y-1.5">
                   {pageVotes.map((v) => {
@@ -101,17 +101,17 @@ export function VotesModal({ matchId, teamA, teamB, onClose }: VotesModalProps) 
             <button
               onClick={() => setPage((p) => Math.max(0, p - 1))}
               disabled={page === 0}
-              className="rounded-full bg-white/10 p-2 text-text-muted transition-colors hover:bg-white/20 disabled:opacity-30"
+              className="rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 disabled:opacity-30"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-sm font-semibold text-text-muted">
+            <span className="text-sm font-semibold text-white">
               {page + 1} / {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
               disabled={page === totalPages - 1}
-              className="rounded-full bg-white/10 p-2 text-text-muted transition-colors hover:bg-white/20 disabled:opacity-30"
+              className="rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 disabled:opacity-30"
             >
               <ChevronRight className="h-4 w-4" />
             </button>

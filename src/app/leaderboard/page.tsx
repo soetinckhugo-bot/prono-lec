@@ -26,20 +26,20 @@ export default function LeaderboardPage() {
     <div className="mx-auto max-w-6xl">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-black tracking-tight md:text-5xl">Classement</h1>
-        <p className="mt-2 text-text-muted">Les meilleurs pronostiqueurs de la LEC</p>
+        <p className="mt-2 text-white">Les meilleurs pronostiqueurs de la LEC</p>
       </header>
 
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface/60 backdrop-blur-xl">
         <table className="w-full text-left">
           <thead className="bg-white/5">
             <tr>
-              <th className="px-6 py-4 text-sm font-semibold text-text-muted">#</th>
-              <th className="px-6 py-4 text-sm font-semibold text-text-muted">Joueur</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Points</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Bons</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Exact</th>
-              <th className="px-6 py-4 text-center text-sm font-semibold text-text-muted">Faux</th>
-              <th className="px-6 py-4 text-sm font-semibold text-text-muted">Progression</th>
+              <th className="px-6 py-4 text-sm font-semibold text-white">#</th>
+              <th className="px-6 py-4 text-sm font-semibold text-white">Joueur</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Points</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Bons</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Exact</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold text-white">Faux</th>
+              <th className="px-6 py-4 text-sm font-semibold text-white">Progression</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
@@ -52,7 +52,7 @@ export default function LeaderboardPage() {
                   {i === 0 ? (
                     <span className="text-2xl">👑</span>
                   ) : (
-                    <span className="font-mono text-lg font-bold text-text-muted">{i + 1}</span>
+                    <span className="font-mono text-lg font-bold text-white">{i + 1}</span>
                   )}
                 </td>
                 <td className="px-6 py-4">
@@ -80,7 +80,7 @@ export default function LeaderboardPage() {
         </table>
       </div>
 
-      {users.length === 0 && <p className="mt-8 text-center text-text-muted">Aucun joueur classé pour le moment.</p>}
+      {users.length === 0 && <p className="mt-8 text-center text-white">Aucun joueur classé pour le moment.</p>}
     </div>
   );
 }

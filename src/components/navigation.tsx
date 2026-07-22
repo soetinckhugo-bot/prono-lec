@@ -20,21 +20,21 @@ export function Navigation() {
         <div className="flex items-center gap-6">
           {status === "authenticated" ? (
             <>
-              <Link href="/matches" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
+              <Link href="/matches" className="flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-primary">
                 <Users className="h-4 w-4" />
                 Matchs
               </Link>
-              <Link href="/dashboard" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
+              <Link href="/dashboard" className="flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-primary">
                 <BarChart3 className="h-4 w-4" />
                 Dashboard
               </Link>
-              <Link href="/leaderboard" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
+              <Link href="/leaderboard" className="flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-primary">
                 <Trophy className="h-4 w-4" />
                 Classement
               </Link>
               {session.user?.role === "admin" && (
                 <>
-                  <Link href="/admin" className="flex items-center gap-1.5 text-sm font-medium text-text-muted transition-colors hover:text-primary">
+                  <Link href="/admin" className="flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-primary">
                     <Shield className="h-4 w-4" />
                     Admin
                   </Link>
@@ -43,14 +43,14 @@ export function Navigation() {
               <span className="hidden text-sm font-semibold text-white sm:inline">{session.user?.name}</span>
               <button
                 onClick={() => signOut()}
-                className="rounded-full bg-white/10 p-2 text-text-muted transition-all hover:bg-danger/20 hover:text-danger"
+                className="rounded-full bg-white/10 p-2 text-white transition-all hover:bg-danger/20 hover:text-danger"
                 title="Déconnexion"
               >
                 <LogOut className="h-4 w-4" />
               </button>
             </>
           ) : (
-            <span className="text-sm text-text-muted">Connecte-toi pour pronostiquer</span>
+            <span className="text-sm text-white">Connecte-toi pour pronostiquer</span>
           )}
         </div>
       </div>

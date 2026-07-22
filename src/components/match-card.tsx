@@ -75,7 +75,7 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
               {match.scoreA} - {match.scoreB}
             </span>
           ) : (
-            <span className="text-3xl font-black text-text-muted">VS</span>
+            <span className="text-3xl font-black text-white">VS</span>
           )}
         </div>
 
@@ -103,17 +103,17 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
               <TeamLogo name={match.teamB} size={24} />
             </div>
           </div>
-          <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-wider text-white/80">
+          <p className="mb-1 text-center text-[10px] font-bold uppercase tracking-wider text-white">
             {totalVotes} vote{totalVotes > 1 ? "s" : ""}
           </p>
           <div className="relative h-2.5 w-full overflow-hidden rounded-full bg-white/10">
             <div
-              className="absolute left-0 top-0 h-full animate-vote-bar"
-              style={{ width: `${teamAPct}%`, backgroundColor: teamAColor }}
+              className="vote-bar absolute left-0 top-0 h-full"
+              style={{ width: `${teamAPct}%`, backgroundColor: teamAColor, color: teamAColor }}
             />
             <div
-              className="absolute right-0 top-0 h-full animate-vote-bar"
-              style={{ width: `${teamBPct}%`, backgroundColor: teamBColor }}
+              className="vote-bar absolute right-0 top-0 h-full"
+              style={{ width: `${teamBPct}%`, backgroundColor: teamBColor, color: teamBColor }}
             />
           </div>
         </div>
@@ -123,7 +123,7 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
         <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-3">
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <span className="text-text-muted">Ton prono</span>
+              <span className="text-white">Ton prono</span>
               <span className="font-semibold" style={{ color: myPrediction.winner === "teamA" ? teamAColor : teamBColor }}>
                 {myPrediction.winner === "teamA" ? match.teamA : match.teamB}
               </span>
@@ -161,20 +161,20 @@ export function MatchCard({ match, userId, onUpdate }: MatchCardProps) {
           )}
         </div>
       ) : (
-        <div className="mt-5 flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-semibold text-text-muted">
+        <div className="mt-5 flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-semibold text-white">
           <div className="flex items-center gap-2">
             <Lock className="h-4 w-4" />
             {isFinished ? "Match terminé" : "Pronos verrouillés"}
           </div>
           {!isFinished && (
-            <p className="text-xs text-text-muted">Contacte un admin si tu veux modifier.</p>
+            <p className="text-xs text-white">Contacte un admin si tu veux modifier.</p>
           )}
         </div>
       )}
 
       <button
         onClick={() => setShowVotes(true)}
-        className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2.5 text-sm font-semibold text-text-muted transition-all hover:border-primary/30 hover:text-primary"
+        className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2.5 text-sm font-semibold text-white transition-all hover:border-primary/30 hover:text-primary"
       >
         <Users className="h-4 w-4" />
         Voir les votes ({match.predictions.length})

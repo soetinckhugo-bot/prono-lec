@@ -60,11 +60,11 @@ export default function MatchesPage() {
       <header className="mb-10 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-black tracking-tight md:text-4xl">Matchs à pronostiquer LEC</h1>
-          <p className="mt-2 flex items-center gap-2 text-text-muted">
+          <p className="mt-2 flex items-center gap-2 text-white">
             <CalendarDays className="h-4 w-4" />
             Programme LEC
           </p>
-          <p className="mt-2 text-xs text-text-muted">
+          <p className="mt-2 text-xs text-white">
             Les pronos se verrouillent 15 minutes avant le premier match de la journée. Demande à un admin pour changer après verrouillage.
           </p>
         </div>
@@ -72,8 +72,8 @@ export default function MatchesPage() {
 
       {matches.length === 0 ? (
         <div className="rounded-2xl border border-white/10 bg-surface/60 p-12 text-center backdrop-blur-xl">
-          <p className="text-lg text-text-muted">Aucun match programmé pour le moment.</p>
-          <p className="mt-2 text-sm text-text-muted">Reviens plus tard ou demande à l'admin d'en ajouter.</p>
+          <p className="text-lg text-white">Aucun match programmé pour le moment.</p>
+          <p className="mt-2 text-sm text-white">Reviens plus tard ou demande à l'admin d'en ajouter.</p>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">

@@ -59,7 +59,7 @@ export default function MatchesPage() {
     <div className="mx-auto max-w-5xl">
       <header className="mb-10 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-black tracking-tight md:text-4xl">Matchs à pronostiquer</h1>
+          <h1 className="text-3xl font-black tracking-tight md:text-4xl">Matchs à pronostiquer LEC</h1>
           <p className="mt-2 flex items-center gap-2 text-text-muted">
             <CalendarDays className="h-4 w-4" />
             Programme LEC
